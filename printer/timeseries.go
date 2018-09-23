@@ -94,7 +94,9 @@ func (p Printer) DrawTimeSeries(t TimeSeriesChart) {
 		p.SetColor(BLUE)
 		p.GraphicalWrite(t.Title, 5, TextBottomToTop)
 	}
-	
+
+	p.MoveTo(0, -800)
+	p.SetOrigin()
 }
 
 func (p Printer) drawTimeSeriesAxes(t TimeSeriesChart) {
@@ -119,10 +121,12 @@ func (p Printer) drawTimeSeriesAxes(t TimeSeriesChart) {
 	// Draw Labels (Y axis)
 	dy := (t.Max() - t.Min()) / 400
 
-	for i := 0; i < 20; i++ {
-		p.MoveTo(400-(i*20), origin.Y-100)
-		v := dy*(20.0*float64(i))
-		p.GraphicalWrite(fmt.Sprintf("%6.3f%s", v, t.Unit), 1, TextBottomToTop)
+	for i := 0; i < 10; i++ {
+		v := dy*(40.0*float64(i))
+		label := fmt.Sprintf("%6.3f%s", v, t.Unit)
+
+		p.MoveTo(394-(i*40), origin.Y - (12*len(label))-14)
+		p.GraphicalWrite(label, 1, TextBottomToTop)
 	}
 	
 	// Draw Labels (X axis)
@@ -136,7 +140,7 @@ func (p Printer) drawTimeSeriesAxes(t TimeSeriesChart) {
 		v := t.Start.Add(ti * time.Duration(i))
 		
 		p.log("Time: " + v.Format(time.RFC3339))
-		p.MoveTo(410, (origin.Y + 25*i)-4)
+		p.MoveTo(410, (origin.Y + 25*i)-8)
 		p.GraphicalWrite(v.Format("15:04"), 1, TextLeftToRight)
 	}
 	

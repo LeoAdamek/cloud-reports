@@ -20,7 +20,22 @@ func App() *cli.App {
 		return nil
 	}
 
+	commonFlags := []cli.Flag{
+		cli.DurationFlag{
+			Name: "d",
+			Value: 24*time.Hour,
+		},
+	}
+
 	app.Commands = []cli.Command{
+		{
+			Name: "traefik",
+			Usage: "Printer Traefik Chart",
+			Action: traefikChart,
+			Flags: commonFlags,
+
+		},
+
 		{
 			Name: "cpu",
 			Usage: "Print CPU Chart",
@@ -57,6 +72,11 @@ func App() *cli.App {
 				{
 					Name: "chart",
 					Action: testChart,
+				},
+
+				{
+					Name: "Table",
+					Action: testTable,
 				},
 			},
 		},
